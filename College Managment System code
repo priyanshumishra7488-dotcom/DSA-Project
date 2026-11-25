@@ -1,0 +1,135 @@
+import java.util.*;
+
+class StudentRequest {
+    int id;
+    String name, course, request;
+
+    StudentRequest(int id, String name, String course, String request) {
+        this.id = id;
+        this.name = name;
+        this.course = course;
+        this.request = request;
+    }
+
+    void display() {
+        System.out.println("Student ID: " + id);
+        System.out.println("Name: " + name);
+        System.out.println("Course: " + course);
+        System.out.println("Request: " + request);
+        System.out.println("----------------------");
+    }
+}
+
+public class Main {
+    static Queue<StudentRequest> queue = new ArrayDeque<>();
+    static Scanner sc = new Scanner(System.in);
+
+    static void addStudent() {
+        System.out.print("Enter Student ID: ");
+        int id = Integer.parseInt(sc.nextLine());
+
+        System.out.print("Enter Student Name: ");
+        String name = sc.nextLine();
+
+        System.out.print("Enter Course: ");
+        String course = sc.nextLine();
+
+        System.out.print("Enter Request: ");
+        String request = sc.nextLine();
+
+        queue.add(new StudentRequest(id, name, course, request));
+        System.out.println("Student request added successfully!");
+    }
+
+    static void viewRequest() {
+        if (queue.isEmpty()) {
+            System.out.println("No requests available.");
+        } else {
+            System.out.println("Next Student Request:");
+            queue.peek().display();
+        }
+    }
+
+    static void processRequest() {
+        if (queue.isEmpty()) {
+            System.out.println("No request to process.");
+        } else {
+            StudentRequest s = queue.poll();
+            System.out.println("Request Processed:");
+            s.display();
+        }
+    }
+
+    static void displayRequests() {
+        if (queue.isEmpty()) {
+            System.out.println("No requests available.");
+        } else {
+            System.out.println("\nAll Student Requests:");
+            for (StudentRequest s : queue) {
+                s.display();
+            }
+        }
+    }
+
+    static void searchStudent() {
+        System.out.print("Enter Student ID to search: ");
+        int id = Integer.parseInt(sc.nextLine());
+
+        for (StudentRequest s : queue) {
+            if (s.id == id) {
+                System.out.println("Student Found:");
+                s.display();
+                return;
+            }
+        }
+
+        System.out.println("Student not found.");
+    }
+
+    public static void main(String[] args) {
+        int choice;
+
+        do {
+            System.out.println("\n===== COLLEGE MANAGEMENT SYSTEM =====");
+            System.out.println("1. Add Student Request");
+            System.out.println("2. View Next Request");
+            System.out.println("3. Process Request");
+            System.out.println("4. Display All Requests");
+            System.out.println("5. Search Student");
+            System.out.println("6. Exit");
+            System.out.print("Enter your choice: ");
+
+            try {
+                choice = Integer.parseInt(sc.nextLine());
+            } catch (NumberFormatException e) {
+                choice = 0;
+            }
+
+            switch (choice) {
+                case 1:
+                    addStudent();
+                    break;
+                case 2:
+                    viewRequest();
+                    break;
+                case 3:
+                    processRequest();
+                    break;
+                case 4:
+                    displayRequests();
+                    break;
+                case 5:
+                    searchStudent();
+                    break;
+                case 6:
+                    System.out.println("Thank you for using College Management System!");
+                    break;
+                default:
+                    System.out.println("Invalid choice! Try again.");
+            }
+
+        } while (choice != 6);
+
+        sc.close();
+    }
+}
